@@ -9,6 +9,14 @@ const APP_NAME = process.env.APP_NAME || "App Comunitaria";
 const APP_ENV = process.env.APP_ENV || "development";
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 
+const REQUIRE_TELEGRAM = process.env.REQUIRE_TELEGRAM === "true";
+
+if (REQUIRE_TELEGRAM && !TELEGRAM_BOT_TOKEN) {
+  console.error("ERROR_OPERATIVO: REQUIRE_TELEGRAM está activo, pero falta TELEGRAM_BOT_TOKEN.");
+  console.error("SUGERENCIA: Revise el archivo .env sin publicar credenciales.");
+  process.exit(1);
+}
+
 app.use(express.json());
 
 function existeTokenTelegram() {
@@ -73,3 +81,4 @@ app.listen(PORT, () => {
     console.warn("Telegram: token no configurado.");
   }
 });
+
